@@ -1,0 +1,70 @@
+/* 背景修复 */
+#ebg, #ebga {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+#ebg {
+    background: url('../img/bgs.png') no-repeat center center;
+    background-size: cover;
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+#ebga {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 雪花背景 */
+#xuna {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 入场动画 */
+#etext {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+/* 确保主容器可见 */
+#pc, #mp {
+    position: relative;
+    z-index: 1;
+}
+
+/* 确保背景图片加载 */
+.bgs {
+    background: url('../img/bgs.png') no-repeat center center;
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    opacity: 1;
+    display: block;
+} 

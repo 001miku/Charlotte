@@ -26,6 +26,7 @@
 	<link rel="stylesheet" type="text/css" href="css/cnm.sb_pc.css" />
 	<link rel="stylesheet" type="text/css" href="css/cnm.sb_mp.css" />
 	<link rel="stylesheet" type="text/css" href="css/waifu.css" />
+	<link rel="stylesheet" type="text/css" href="css/bgs-fix.css" />
 	<!-- Javascript样式调用 -->
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/cnm.sb_judge.js"></script>
@@ -1080,137 +1081,8 @@
 	</script>
 
 	<script async src="js/waifu.js"></script>
-
-	<!-- 使用webp格式图片，加载更快 -->
-	<script>
-	// 检查图片加载情况
-	document.addEventListener('DOMContentLoaded', () => {
-		// 使用IntersectionObserver延迟加载非关键资源
-		const lazyImages = document.querySelectorAll('img[data-src]');
-		if ('IntersectionObserver' in window) {
-			const imageObserver = new IntersectionObserver((entries, observer) => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						const image = entry.target;
-						image.src = image.dataset.src;
-						imageObserver.unobserve(image);
-					}
-				});
-			});
-			lazyImages.forEach(img => imageObserver.observe(img));
-		}
-		
-		// 初始化Live2D (使用更快的CDN)
-		if (typeof L2Dwidget !== 'undefined') {
-			L2Dwidget.init({
-				model: {
-					jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
-					scale: 0.8
-				},
-				display: {
-					position: 'right',
-					width: 300,
-					height: 300,
-					hOffset: 0,
-					vOffset: 0
-				},
-				mobile: {
-					show: true,
-					scale: 0.6
-				},
-				react: {
-					opacityDefault: 1,
-					opacityOnHover: 1
-				},
-				name: {
-					canvas: 'live2d',
-					div: 'live2d-widget'
-				},
-				dialog: {
-					enable: true,
-					script: {
-						'tap body': '哎呀！别碰我！',
-						'tap face': '人家在认真工作啦！',
-						'tap clothes': '要好好学习哦！'
-					}
-				},
-				tool: {
-					enable: true,
-					hide: true
-				}
-			});
-		}
-	});
-	</script>
-
-	<!-- 加载完成后初始化Live2D -->
-	<script>
-	// 初始化Live2D (使用更快的CDN)
-	document.addEventListener('DOMContentLoaded', () => {
-		// 确保背景图片正确加载
-		setTimeout(() => {
-			// 隐藏不需要的图片
-			const randomImages = document.querySelectorAll('img[src^="https://api."]');
-			randomImages.forEach(img => {
-				img.style.display = 'none';
-			});
-			
-			// 显示背景图片
-			const bgs = document.querySelector('.bgs');
-			if (bgs) {
-				bgs.style.backgroundImage = "url('img/bgs.png')";
-				bgs.style.backgroundSize = 'cover';
-				bgs.style.backgroundPosition = 'center';
-				bgs.style.display = 'block';
-				bgs.style.opacity = '1';
-			}
-		}, 500);
-		
-		// 初始化Live2D
-		if (typeof L2Dwidget !== 'undefined') {
-			L2Dwidget.init({
-				model: {
-					jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
-					scale: 0.8
-				},
-				display: {
-					position: 'right',
-					width: 300,
-					height: 300,
-					hOffset: 0,
-					vOffset: 0
-				},
-				mobile: {
-					show: true,
-					scale: 0.6
-				},
-				react: {
-					opacityDefault: 1,
-					opacityOnHover: 1
-				},
-				name: {
-					canvas: 'live2d',
-					div: 'live2d-widget'
-				},
-				dialog: {
-					enable: true,
-					script: {
-						'tap body': '哎呀！别碰我！',
-						'tap face': '人家在认真工作啦！',
-						'tap clothes': '要好好学习哦！'
-					}
-				},
-				tool: {
-					enable: true,
-					hide: true
-				}
-			});
-		}
-	});
-	</script>
-	
-	<!-- 异步加载waifu.js -->
-	<script async src="js/waifu.js"></script>
+	<!-- 添加修复脚本 -->
+	<script src="js/fix-elements.js"></script>
 </body>
 
 </html>
