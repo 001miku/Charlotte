@@ -3,16 +3,40 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title>个人博客</title>
+	<!--网站收录数据抓取-->
+	<meta charset="UTF-8">
+	<meta name="language" content="zh-CN">
+	<meta name="title" content="友利奈绪爱小陈">
+	<meta name="author" content="友利奈绪爱小陈-免费发布">
+	<meta name="description" content="友利奈绪爱小陈，免费资源分享！">
+	<meta name="keywords" content="友利奈绪爱小陈,资源下载">
+	<meta name="robots" content="All">
+	<!--数据抓取完成-->
+	<title>友利奈绪爱小陈 - 33210.jm.cn</title>
+	<!-- 调用ICON地址 -->
+	<link rel="icon" href="img/cnm.sb.ico">
+	<!-- 自适应 -->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<!-- DNS预加载 -->
 	<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 	<link rel="dns-prefetch" href="//unpkg.com">
+	<!-- Css样式调用 -->
+	<link rel="stylesheet" type="text/css" href="css/cnm.sb_load.css" />
+	<link rel="stylesheet" type="text/css" href="css/cnm.sb_bg.css" />
+	<link rel="stylesheet" type="text/css" href="css/cnm.sb_pc.css" />
+	<link rel="stylesheet" type="text/css" href="css/cnm.sb_mp.css" />
+	<link rel="stylesheet" type="text/css" href="css/waifu.css" />
+	<!-- Javascript样式调用 -->
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/cnm.sb_judge.js"></script>
+	<script src="js/cnm.sb_pc.js"></script>
+	<script src="js/cnm.sb_mp.js"></script>
+	<script src="js/cnm.sb_copy.js"></script>
+	<!-- Live2D -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
 	<!-- 预加载关键资源 -->
 	<link rel="preload" href="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js" as="script">
 	<link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js" as="script">
-	<!-- 压缩版CSS -->
-	<link rel="stylesheet" href="css/style.min.css">
 	<!-- Live2D 依赖 -->
 	<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
@@ -1118,6 +1142,75 @@
 		}
 	});
 	</script>
+
+	<!-- 加载完成后初始化Live2D -->
+	<script>
+	// 初始化Live2D (使用更快的CDN)
+	document.addEventListener('DOMContentLoaded', () => {
+		// 确保背景图片正确加载
+		setTimeout(() => {
+			// 隐藏不需要的图片
+			const randomImages = document.querySelectorAll('img[src^="https://api."]');
+			randomImages.forEach(img => {
+				img.style.display = 'none';
+			});
+			
+			// 显示背景图片
+			const bgs = document.querySelector('.bgs');
+			if (bgs) {
+				bgs.style.backgroundImage = "url('img/bgs.png')";
+				bgs.style.backgroundSize = 'cover';
+				bgs.style.backgroundPosition = 'center';
+				bgs.style.display = 'block';
+				bgs.style.opacity = '1';
+			}
+		}, 500);
+		
+		// 初始化Live2D
+		if (typeof L2Dwidget !== 'undefined') {
+			L2Dwidget.init({
+				model: {
+					jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
+					scale: 0.8
+				},
+				display: {
+					position: 'right',
+					width: 300,
+					height: 300,
+					hOffset: 0,
+					vOffset: 0
+				},
+				mobile: {
+					show: true,
+					scale: 0.6
+				},
+				react: {
+					opacityDefault: 1,
+					opacityOnHover: 1
+				},
+				name: {
+					canvas: 'live2d',
+					div: 'live2d-widget'
+				},
+				dialog: {
+					enable: true,
+					script: {
+						'tap body': '哎呀！别碰我！',
+						'tap face': '人家在认真工作啦！',
+						'tap clothes': '要好好学习哦！'
+					}
+				},
+				tool: {
+					enable: true,
+					hide: true
+				}
+			});
+		}
+	});
+	</script>
+	
+	<!-- 异步加载waifu.js -->
+	<script async src="js/waifu.js"></script>
 </body>
 
 </html>

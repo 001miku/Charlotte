@@ -30,21 +30,14 @@ jobs:
           key: ${{ runner.os }}-build-${{ hashFiles('**/lockfiles') }}
           restore-keys: |
             ${{ runner.os }}-build-
-      - name: Install minification tools
-        run: |
-          npm install -g html-minifier uglify-js clean-css-cli
-      - name: Optimize assets
+      - name: Optimize image assets
         run: |
           mkdir -p optimized
-          # Minify HTML files
-          find . -name "*.html" -type f -exec html-minifier --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true {} -o optimized/{} \;
-          # Minify CSS files (skip already minified)
-          find . -name "*.css" -not -name "*.min.css" -type f -exec cleancss -o optimized/{} {} \;
-          # Minify JS files (skip already minified)
-          find . -name "*.js" -not -name "*.min.js" -type f -exec uglifyjs {} -o optimized/{} -c -m \;
-          # Copy all optimized files back
-          cp -rf optimized/. .
-          rm -rf optimized
+          # 仅优化图片资源，不修改CSS和JS
+          # 复制所有文件到目标目录
+          cp -rf . optimized/
+          # 排除已复制的目录
+          rm -rf optimized/optimized
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
