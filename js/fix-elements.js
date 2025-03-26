@@ -161,18 +161,18 @@ function initializeLive2D() {
         L2Dwidget.init({
             model: {
                 jsonPath: bestModelCdn,
-                scale: 0.8
+                scale: 1.0
             },
             display: {
                 position: 'right',
                 width: 300,
-                height: 300,
+                height: 400,
                 hOffset: 0,
-                vOffset: 0
+                vOffset: -70
             },
             mobile: {
                 show: true,
-                scale: 0.6
+                scale: 0.8
             },
             react: {
                 opacityDefault: 1,

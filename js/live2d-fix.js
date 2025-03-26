@@ -64,8 +64,8 @@ function createWaifuElements() {
         waifuStyle.innerHTML = `
             .waifu {
                 position: fixed;
-                bottom: 0;
                 right: 0;
+                bottom: 0;
                 z-index: 999;
                 transition: all .3s ease-in-out;
                 transform-origin: right bottom;
@@ -159,18 +159,18 @@ function initLive2DManually() {
             L2Dwidget.init({
                 model: {
                     jsonPath: 'https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
-                    scale: 0.8
+                    scale: 1.0
                 },
                 display: {
                     position: 'right',
                     width: 300,
-                    height: 300,
+                    height: 400,
                     hOffset: 0,
-                    vOffset: 0
+                    vOffset: -70
                 },
                 mobile: {
                     show: true,
-                    scale: 0.6
+                    scale: 0.8
                 },
                 react: {
                     opacityDefault: 1,
@@ -184,6 +184,7 @@ function initLive2DManually() {
                         'tap clothes': '要好好学习哦！'
                     }
                 },
+                // 确保工具栏功能被禁用
                 tool: {
                     enable: false
                 }
@@ -194,6 +195,8 @@ function initLive2DManually() {
             const waifu = document.querySelector('.waifu');
             if (waifu) {
                 waifu.style.display = 'block';
+                waifu.style.right = '0'; // 确保显示在右侧
+                waifu.style.bottom = '0'; // 确保显示在底部
             }
         } catch (error) {
             console.error('Live2D初始化失败:', error);
@@ -255,8 +258,16 @@ setInterval(() => {
     if (waifu && window.getComputedStyle(waifu).display === 'none') {
         console.log('检测到waifu元素被隐藏，尝试显示');
         waifu.style.display = 'block';
+        waifu.style.right = '0'; // 确保显示在右侧
+        waifu.style.bottom = '0'; // 确保显示在底部
+    }
+    
+    // 检查并隐藏工具栏
+    const toolBar = document.querySelector('.waifu-tool');
+    if (toolBar) {
+        toolBar.style.display = 'none';
     }
     
     // 再次修复黑色遮罩问题
     fixBlackOverlay();
-}, 5000); 
+}, 3000); 

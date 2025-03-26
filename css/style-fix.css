@@ -80,6 +80,45 @@ img {
     z-index: 999;
 }
 
+/* 隐藏工具栏 */
+.waifu-tool {
+    display: none !important;
+}
+
+/* 确保Live2D正确显示 */
+.waifu {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    transition: all .3s ease-in-out;
+    transform-origin: right bottom;
+}
+
+.waifu-tips {
+    position: absolute;
+    top: -70px;
+    left: 10px;
+    padding: 5px 10px;
+    width: 220px;
+    min-height: 50px;
+    color: #fff;
+    background-color: rgba(50, 50, 50, 0.7);
+    box-sizing: border-box;
+    border-radius: 12px;
+    z-index: 10002;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#live2d {
+    width: 300px;
+    height: 400px;
+    position: relative;
+    z-index: 998;
+}
+
 /* 雪花动画 */
 .snowflake {
     position: absolute;
