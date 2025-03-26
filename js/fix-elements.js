@@ -165,10 +165,10 @@ function initializeLive2D() {
             },
             display: {
                 position: 'right',
-                width: 300,
-                height: 400,
+                width: 280,
+                height: 380,
                 hOffset: 0,
-                vOffset: -70
+                vOffset: 0
             },
             mobile: {
                 show: true,
@@ -195,6 +195,13 @@ function initializeLive2D() {
             }
         });
         console.log('Live2D初始化成功，使用CDN: ' + bestModelCdn);
+        
+        // 设置waifu元素位置
+        const waifu = document.querySelector('.waifu');
+        if (waifu) {
+            waifu.style.right = '0';
+            waifu.style.bottom = '50px';
+        }
     } else {
         console.warn('L2Dwidget未加载，5秒后重试');
         // 检查Live2D脚本是否存在，如果不存在则添加

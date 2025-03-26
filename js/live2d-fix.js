@@ -163,10 +163,10 @@ function initLive2DManually() {
                 },
                 display: {
                     position: 'right',
-                    width: 300,
-                    height: 400,
+                    width: 280,
+                    height: 380,
                     hOffset: 0,
-                    vOffset: -70
+                    vOffset: 0
                 },
                 mobile: {
                     show: true,
@@ -196,7 +196,7 @@ function initLive2DManually() {
             if (waifu) {
                 waifu.style.display = 'block';
                 waifu.style.right = '0'; // 确保显示在右侧
-                waifu.style.bottom = '0'; // 确保显示在底部
+                waifu.style.bottom = '50px'; // 向上移动50px
             }
         } catch (error) {
             console.error('Live2D初始化失败:', error);
@@ -243,7 +243,7 @@ function loadScript(url) {
     });
 }
 
-// 每隔5秒检查一次Live2D状态
+// 每隔3秒检查一次Live2D状态
 setInterval(() => {
     // 检查Live2D画布是否可见
     const live2d = document.getElementById('live2d');
@@ -259,7 +259,7 @@ setInterval(() => {
         console.log('检测到waifu元素被隐藏，尝试显示');
         waifu.style.display = 'block';
         waifu.style.right = '0'; // 确保显示在右侧
-        waifu.style.bottom = '0'; // 确保显示在底部
+        waifu.style.bottom = '50px'; // 向上移动50px
     }
     
     // 检查并隐藏工具栏
