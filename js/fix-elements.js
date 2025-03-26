@@ -161,18 +161,18 @@ function initializeLive2D() {
         L2Dwidget.init({
             model: {
                 jsonPath: bestModelCdn,
-                scale: 1.0
+                scale: 0.8
             },
             display: {
                 position: 'right',
-                width: 280,
-                height: 380,
+                width: 250,
+                height: 320,
                 hOffset: 0,
                 vOffset: 0
             },
             mobile: {
                 show: true,
-                scale: 0.8
+                scale: 0.6
             },
             react: {
                 opacityDefault: 1,
@@ -200,7 +200,7 @@ function initializeLive2D() {
         const waifu = document.querySelector('.waifu');
         if (waifu) {
             waifu.style.right = '0';
-            waifu.style.bottom = '50px';
+            waifu.style.bottom = '80px';
         }
     } else {
         console.warn('L2Dwidget未加载，5秒后重试');

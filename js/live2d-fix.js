@@ -159,18 +159,18 @@ function initLive2DManually() {
             L2Dwidget.init({
                 model: {
                     jsonPath: 'https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
-                    scale: 1.0
+                    scale: 0.8
                 },
                 display: {
                     position: 'right',
-                    width: 280,
-                    height: 380,
+                    width: 250,
+                    height: 320,
                     hOffset: 0,
                     vOffset: 0
                 },
                 mobile: {
                     show: true,
-                    scale: 0.8
+                    scale: 0.6
                 },
                 react: {
                     opacityDefault: 1,
@@ -196,7 +196,7 @@ function initLive2DManually() {
             if (waifu) {
                 waifu.style.display = 'block';
                 waifu.style.right = '0'; // 确保显示在右侧
-                waifu.style.bottom = '50px'; // 向上移动50px
+                waifu.style.bottom = '80px'; // 向上移动80px
             }
         } catch (error) {
             console.error('Live2D初始化失败:', error);
@@ -259,7 +259,7 @@ setInterval(() => {
         console.log('检测到waifu元素被隐藏，尝试显示');
         waifu.style.display = 'block';
         waifu.style.right = '0'; // 确保显示在右侧
-        waifu.style.bottom = '50px'; // 向上移动50px
+        waifu.style.bottom = '80px'; // 向上移动80px
     }
     
     // 检查并隐藏工具栏
