@@ -1,0 +1,199 @@
+#waifu {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+    font-size: 0;
+    transition: all .3s ease-in-out;
+}
+
+#waifu:hover {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    #waifu {
+        display: none;
+    }
+}
+
+#waifu-tips {
+    opacity: 0;
+    width: 250px;
+    height: auto;
+    min-height: 70px;
+    margin: -20px 20px;
+    padding: 5px 10px;
+    border: 1px solid rgba(224, 186, 140, 0.62);
+    border-radius: 12px;
+    background-color: rgba(236, 217, 188, 0.8);
+    box-shadow: 0 3px 15px 2px rgba(191, 158, 118, 0.2);
+    font-size: 14px;
+    line-height: 24px;
+    word-break: break-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: absolute;
+    animation: shake 50s ease-in-out 5s infinite;
+    transition: opacity 1s;
+}
+
+#live2d {
+    position: relative;
+    cursor: grab;
+    cursor: -webkit-grab;
+    cursor: -o-grab;
+    cursor: -ms-grab;
+}
+
+.live2d-widget {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 200px;
+    height: 200px;
+    z-index: 1000;
+    pointer-events: none;
+    font-size: 0;
+}
+
+.waifu {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    cursor: move;
+    user-select: none;
+    pointer-events: auto;
+    z-index: 1001;
+    transition: opacity 0.5s ease;
+}
+
+.waifu-tips {
+    position: absolute;
+    top: -70px;
+    left: 10px;
+    padding: 5px 10px;
+    width: 260px;
+    height: auto;
+    min-height: 30px;
+    line-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+    background-color: rgba(236, 217, 188, 0.9);
+    border: 1px solid rgba(224, 186, 140, 0.62);
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 10002;
+    display: block;
+    visibility: visible;
+}
+
+.waifu-tips.waifu-tips-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+#live2d {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.waifu-tool {
+    position: absolute;
+    right: -40px;
+    top: 70px;
+    font-size: 14px;
+    z-index: 1002;
+}
+
+.waifu-tool span {
+    display: block;
+    cursor: pointer;
+    color: #5b6c7d;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgba(236, 217, 188, 0.8);
+    border: 1px solid rgba(224, 186, 140, 0.62);
+    margin-bottom: 5px;
+    width: 30px;
+    height: 30px;
+    transition: all 0.3s;
+    pointer-events: auto;
+}
+
+.waifu-tool span:hover {
+    color: #0684bd;
+    background-color: #fff;
+}
+
+@keyframes shake {
+    2% { transform: translate(0.5px, -1.5px) rotate(-0.5deg); }
+    4% { transform: translate(0.5px, 1.5px) rotate(1.5deg); }
+    6% { transform: translate(1.5px, 1.5px) rotate(1.5deg); }
+    8% { transform: translate(2.5px, 1.5px) rotate(0.5deg); }
+    10% { transform: translate(0.5px, 2.5px) rotate(0.5deg); }
+    12% { transform: translate(1.5px, 1.5px) rotate(0.5deg); }
+    14% { transform: translate(0.5px, 0.5px) rotate(0.5deg); }
+    16% { transform: translate(-1.5px, -0.5px) rotate(1.5deg); }
+    18% { transform: translate(0.5px, 0.5px) rotate(1.5deg); }
+    20% { transform: translate(2.5px, 2.5px) rotate(1.5deg); }
+    100% { transform: translate(0, 0) rotate(0); }
+}
+
+@media (max-width: 768px) {
+    .live2d-widget {
+        width: 140px;
+        height: 125px;
+    }
+    
+    .waifu {
+        width: 140px;
+        height: 125px;
+    }
+    
+    #live2d {
+        width: 140px;
+        height: 125px;
+    }
+    
+    .waifu-tips {
+        top: -30px;
+        width: 120px;
+        font-size: 12px;
+        line-height: 20px;
+    }
+    
+    .waifu-tool {
+        right: -30px;
+        top: 30px;
+    }
+    
+    .waifu-tool span {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 12px;
+    }
+}
+
+/* 隐藏随机背景图片，防止与Live2D重叠 */
+img[src^="https://api."],
+img[src*="random"],
+body > div > img:not(#live2d) {
+    display: none !important;
+}
+
+/* 确保Live2D元素正确显示 */
+#live2d-widget,
+.waifu {
+    background: none !important;
+} 

@@ -22,16 +22,165 @@
 	<link rel="stylesheet" type="text/css" href="css/cnm.sb_bg.css" />
 	<link rel="stylesheet" type="text/css" href="css/cnm.sb_pc.css" />
 	<link rel="stylesheet" type="text/css" href="css/cnm.sb_mp.css" />
+	<link rel="stylesheet" type="text/css" href="css/waifu.css" />
 	<!-- Javascript样式调用 -->
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/cnm.sb_judge.js"></script>
 	<script src="js/cnm.sb_pc.js"></script>
 	<script src="js/cnm.sb_mp.js"></script>
 	<script src="js/cnm.sb_copy.js"></script>
+	<!-- Live2D -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.0.min.js"></script>
+	<!-- live2d -->
+	<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
+	<!-- 添加内联初始化脚本 -->
+	<script>
+	// 如果waifu.js加载失败，这段脚本能确保看板娘显示
+	document.addEventListener('DOMContentLoaded', () => {
+		// 隐藏后台的随机图片，防止与Live2D重叠
+		setTimeout(() => {
+			const randomImage = document.querySelector('img[src^="https://api."]');
+			if (randomImage) {
+				randomImage.style.display = 'none';
+			}
+		}, 1000);
+		
+		// 5秒后检查看板娘是否存在，如果不存在则手动创建
+		setTimeout(() => {
+			if (!document.querySelector('.waifu')) {
+				console.log('看板娘未显示，尝试手动创建');
+				// 创建基本DOM结构
+				const waifuContainer = document.createElement('div');
+				waifuContainer.style.cssText = 'position:fixed;right:0;bottom:0;width:200px;height:200px;z-index:1000;pointer-events:auto;';
+				
+				const waifu = document.createElement('div');
+				waifu.className = 'waifu';
+				waifu.style.cssText = 'position:absolute;bottom:0;left:0;width:200px;height:200px;cursor:move;user-select:none;z-index:1001;transition:opacity 0.5s;opacity:1;display:block;';
+				
+				const waifuTipsElement = document.createElement('div');
+				waifuTipsElement.className = 'waifu-tips';
+				waifuTipsElement.style.cssText = 'position:absolute;top:-40px;left:20px;padding:5px 10px;width:180px;height:auto;min-height:30px;line-height:20px;text-align:center;font-size:12px;color:#333;background-color:rgba(236,217,188,0.9);border:1px solid rgba(224,186,140,0.62);border-radius:12px;opacity:0;transition:opacity 0.3s;z-index:1002;';
+				
+				// 使用一个静态图片代替Live2D模型
+				const img = document.createElement('img');
+				img.src = 'https://i.loli.net/2020/05/14/5VyHPQF1wDgRBSW.png';
+				img.style.cssText = 'width:100%;height:100%;object-fit:contain;';
+				
+				// 添加拖动功能
+				let dragging = false;
+				let offsetX, offsetY;
+				
+				waifu.addEventListener('mousedown', (e) => {
+					dragging = true;
+					const rect = waifu.getBoundingClientRect();
+					offsetX = e.clientX - rect.left;
+					offsetY = e.clientY - rect.top;
+					waifu.style.opacity = '0.8';
+				});
+				
+				document.addEventListener('mousemove', (e) => {
+					if (!dragging) return;
+					const x = e.clientX - offsetX;
+					const y = e.clientY - offsetY;
+					waifu.style.left = x + 'px';
+					waifu.style.top = y + 'px';
+				});
+				
+				document.addEventListener('mouseup', () => {
+					dragging = false;
+					waifu.style.opacity = '1';
+				});
+				
+				// 显示消息
+				const showMessage = (text) => {
+					waifuTipsElement.innerHTML = text;
+					waifuTipsElement.style.opacity = '1';
+					setTimeout(() => {
+						waifuTipsElement.style.opacity = '0';
+					}, 3000);
+				};
+				
+				// 初始消息
+				setTimeout(() => {
+					showMessage('你好呀！我是你的看板娘~');
+				}, 1000);
+				
+				waifu.appendChild(waifuTipsElement);
+				waifu.appendChild(img);
+				waifuContainer.appendChild(waifu);
+				document.body.appendChild(waifuContainer);
+				
+				// 点击交互
+				waifu.addEventListener('click', () => {
+					const messages = [
+						'你好呀！',
+						'点我干嘛呀！',
+						'喜欢我吗？',
+						'别戳啦，好痒！'
+					];
+					showMessage(messages[Math.floor(Math.random() * messages.length)]);
+				});
+			}
+		}, 5000);
+	});
+	</script>
+	<script src="js/waifu.js"></script>
+
+	<script>
+		// 使用HTTPS资源
+		L2Dwidget.init({
+			model: {
+				jsonPath: 'https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
+					scale: 0.8
+			},
+			display: {
+				position: 'right',
+				width: 300,
+				height: 300,
+				hOffset: 0,
+				vOffset: 0
+			},
+			mobile: {
+				show: true,
+				scale: 0.6
+			},
+			react: {
+				opacityDefault: 1,
+				opacityOnHover: 1
+			},
+			name: {
+				canvas: 'live2d',
+				div: 'live2d-widget'
+			},
+			dialog: {
+				enable: true,
+				script: {
+					'tap body': '哎呀！别碰我！',
+					'tap face': '人家在认真工作啦！',
+					'tap clothes': '要好好学习哦！'
+				}
+			},
+			tool: {
+				enable: true,
+				hide: true
+			},
+			debug: {
+				enable: true
+			}
+		});
+	</script>
 
 </head>
 
 <body>
+	<!-- Live2D -->
+	<div id="live2d-widget">
+		<canvas id="live2d" width="300" height="300"></canvas>
+	</div>
 	<!-- 电脑PC端 -->
 	<div id="pc">
 		<div id="content">
@@ -395,10 +544,10 @@
 							⚽️ 🏀 🏈 ⚾️ 🥎 🏐 🏉 🎾 🥏 🎱 🏓 🏸 🥅 🏒 🏑 🥍 🏏 ⛳️ 🏹 🎣 🥊 🥋 🎽 ⛸ 🥌 🛷 🛹 🎿 ⛷ 🏂
 							🏋️‍♀️ 🏋🏻‍♀️ 🏋🏼‍♀️ 🏋🏽‍♀️ 🏋🏾‍♀️ 🏋🏿‍♀️ 🏋️‍♂️ 🏋🏻‍♂️ 🏋🏼‍♂️ 🏋🏽‍♂️ 🏋🏾‍♂️
 							🏋🏿‍♂️ 🤼‍♀️ 🤼‍♂️ 🤸‍♀️ 🤸🏻‍♀️ 🤸🏼‍♀️ 🤸🏽‍♀️ 🤸🏾‍♀️ 🤸🏿‍♀️ 🤸‍♂️ 🤸🏻‍♂️ 🤸🏼‍♂️
-							🤸🏽‍♂️ 🤸🏾‍♂️ 🤸🏿‍♂️ ⛹️‍♀️ ⛹🏻‍♀️ ⛹🏼‍♀️ ⛹🏽‍♀️ ⛹🏾‍♀️ ⛹🏿‍♀️ ⛹️‍♂️ ⛹🏻‍♂️ ⛹🏼‍♂️ ⛹🏽‍♂️
-							⛹🏾‍♂️ ⛹🏿‍♂️ 🤺 🤾‍♀️ 🤾🏻‍♀️ 🤾🏼‍♀️ 🤾🏾‍♀️ 🤾🏾‍♀️ 🤾🏿‍♀️ 🤾‍♂️ 🤾🏻‍♂️ 🤾🏼‍♂️ 🤾🏽‍♂️
+							🤸🏽‍♂️ 🤸🏾‍♂️ 🤸🏿‍♂️ ⛹️‍♀️ ⛹🏻‍♀️ ⛹🏼‍♀️ ⛹🏽‍♀️ ⛹🏾‍♀️ ⛹🏿‍♀️ ⛹️‍♂️ ⛹🏻‍♂️ ⛹🏼‍♂️
+							⛹🏽‍♂️ ⛹🏾‍♂️ ⛹🏿‍♂️ 🤾🏻‍♀️ 🤾🏼‍♀️ 🤾🏾‍♀️ 🤾🏿‍♀️ 🤾‍♂️ 🤾🏻‍♂️ 🤾🏼‍♂️ 🤾🏽‍♂️
 							🤾🏾‍♂️ 🤾🏿‍♂️ 🏌️‍♀️ 🏌🏻‍♀️ 🏌🏼‍♀️ 🏌🏽‍♀️ 🏌🏾‍♀️ 🏌🏿‍♀️ 🏌️‍♂️ 🏌🏻‍♂️ 🏌🏼‍♂️
-							🏌🏽‍♂️ 🏌🏾‍♂️ 🏌🏿‍♂️ 🏇 🏇🏻 🏇🏼 🏇🏽 🏇🏾 🏇🏿 🧘‍♀️ 🧘🏻‍♀️ 🧘🏼‍♀️ 🧘🏽‍♀️ 🧘🏾‍♀️
+							🏌🏽‍♂️ 🏌🏾‍♂️ 🏌🏿‍♂️ 🏇 🏇🏻 🏇🏽 🏇🏾 🏇🏿 🧘‍♀️ 🧘🏻‍♀️ 🧘🏼‍♀️ 🧘🏽‍♀️ 🧘🏾‍♀️
 							🧘🏿‍♀️ 🧘‍♂️ 🧘🏻‍♂️ 🧘🏼‍♂️ 🧘🏽‍♂️ 🧘🏾‍♂️ 🧘🏿‍♂️ 🏄‍♀️ 🏄🏻‍♀️ 🏄🏼‍♀️ 🏄🏽‍♀️ 🏄🏾‍♀️
 							🏄🏿‍♀️ 🏄‍♂️ 🏄🏻‍♂️ 🏄🏼‍♂️ 🏄🏽‍♂️ 🏄🏾‍♂️ 🏄🏿‍♂️ 🏊‍♀️ 🏊🏻‍♀️ 🏊🏼‍♀️ 🏊🏽‍♀️ 🏊🏾‍♀️
 							🏊🏿‍♀️ 🏊‍♂️ 🏊🏻‍♂️ 🏊🏼‍♂️ 🏊🏽‍♂️ 🏊🏾‍♂️ 🏊🏿‍♂️ 🤽‍♀️ 🤽🏻‍♀️ 🤽🏼‍♀️ 🤽🏽‍♀️ 🤽🏾‍♀️
@@ -978,6 +1127,92 @@
 
 	<p id="eixp">当你在凝视深渊的时候，深渊也正在凝视着你！</p>
 
+	<!-- 在body结束标签前添加 -->
+	<script>
+	// 完整的背景图片处理函数
+	function hideBackgroundImages() {
+		// 隐藏所有可能的随机背景图片
+		const imgSelectors = [
+			'img[src^="https://api."]',
+			'img[src*="random"]',
+			'body > div > img:not(#live2d)',
+			'img[src*="bing.com"]',
+			'img[src*="unsplash.com"]'
+		];
+		
+		imgSelectors.forEach(selector => {
+			const images = document.querySelectorAll(selector);
+			images.forEach(img => {
+				img.style.display = 'none';
+				console.log('隐藏了背景图片:', img.src);
+			});
+		});
+		
+		// 确保Live2D元素正常显示
+		const live2dElements = document.querySelectorAll('#live2d-widget, .waifu, #live2d');
+		live2dElements.forEach(elem => {
+			if (elem) {
+				elem.style.background = 'none';
+			}
+		});
+	}
+	
+	// 页面加载完成后立即执行
+	hideBackgroundImages();
+	
+	// 定期检查并隐藏新加载的背景图片
+	setInterval(hideBackgroundImages, 2000);
+	</script>
+
+	<script>
+	// 检查看板娘气泡是否显示正确
+	document.addEventListener('DOMContentLoaded', () => {
+		// 隐藏背景图片
+		setTimeout(hideBackgroundImages, 1000);
+		
+		// 5秒后检查气泡是否正确显示
+		setTimeout(() => {
+			const tips = document.querySelector('.waifu-tips');
+			if (tips && !tips.innerHTML) {
+				console.log('气泡没有内容，尝试修复');
+				const waifuTips = new WaifuTips();
+				waifuTips.showMessage('欢迎来到我的小窝~', 6000);
+			}
+			
+			// 修复气泡位置
+			const allTips = document.querySelectorAll('.waifu-tips');
+			allTips.forEach(tip => {
+				tip.style.top = '-70px';
+				tip.style.left = '10px';
+				tip.style.zIndex = '10002';
+				tip.style.display = 'block';
+				tip.style.visibility = 'visible';
+			});
+		}, 3000);
+	});
+
+	// 隐藏背景图片函数
+	function hideBackgroundImages() {
+		// 隐藏所有可能的随机背景图片
+		const imgSelectors = [
+			'img[src^="https://api."]',
+			'img[src*="random"]',
+			'body > div > img:not(#live2d)',
+			'img[src*="bing.com"]',
+			'img[src*="unsplash.com"]'
+		];
+		
+		imgSelectors.forEach(selector => {
+			const images = document.querySelectorAll(selector);
+			images.forEach(img => {
+				img.style.display = 'none';
+				console.log('隐藏了背景图片:', img.src);
+			});
+		});
+	}
+	</script>
+
+	<script src="js/waifu.js"></script>
 </body>
 
 </html>

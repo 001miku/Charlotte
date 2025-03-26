@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live2D 调试页面</title>
+    <!-- Live2D 依赖 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .log {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            height: 200px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            font-family: monospace;
+        }
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Live2D 调试页面</h1>
+        <div class="log" id="log"></div>
+        <div class="controls">
+            <button onclick="initLive2D()">初始化 Live2D</button>
+            <button onclick="checkElements()">检查元素</button>
+            <button onclick="clearLog()">清除日志</button>
+        </div>
+    </div>
+
+    <script>
+        // 日志函数
+        function log(message) {
+            const logElement = document.getElementById('log');
+            logElement.innerHTML += `<div>${message}</div>`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        // 清除日志
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        // 检查元素
+        function checkElements() {
+            log(`检查 #live2d-widget: ${document.getElementById('live2d-widget') ? '存在' : '不存在'}`);
+            log(`检查 #live2d: ${document.getElementById('live2d') ? '存在' : '不存在'}`);
+            log(`检查 .waifu: ${document.querySelector('.waifu') ? '存在' : '不存在'}`);
+            log(`检查 .waifu-tips: ${document.querySelector('.waifu-tips') ? '存在' : '不存在'}`);
+        }
+
+        // 初始化 Live2D
+        function initLive2D() {
+            try {
+                log('正在初始化 Live2D...');
+                
+                // 创建容器
+                if (!document.getElementById('live2d-widget')) {
+                    const container = document.createElement('div');
+                    container.id = 'live2d-widget';
+                    document.body.appendChild(container);
+                    log('创建了 #live2d-widget 容器');
+                }
+                
+                // 初始化 L2Dwidget
+                L2Dwidget.init({
+                    model: {
+                        jsonPath: 'https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
+                        scale: 0.8
+                    },
+                    display: {
+                        position: 'right',
+                        width: 300,
+                        height: 300,
+                        hOffset: 0,
+                        vOffset: 0
+                    },
+                    mobile: {
+                        show: true,
+                        scale: 0.6
+                    },
+                    react: {
+                        opacityDefault: 1,
+                        opacityOnHover: 1
+                    },
+                    name: {
+                        canvas: 'live2d',
+                        div: 'live2d-widget'
+                    },
+                    dialog: {
+                        enable: true,
+                        script: {
+                            'tap body': '哎呀！别碰我！',
+                            'tap face': '人家在认真工作啦！',
+                            'tap clothes': '要好好学习哦！'
+                        }
+                    },
+                    tool: {
+                        enable: true,
+                        hide: true
+                    },
+                    debug: {
+                        enable: true
+                    }
+                });
+                
+                log('Live2D 初始化完成');
+            } catch (error) {
+                log(`初始化失败: ${error.message}`);
+            }
+        }
+
+        // 页面加载完成后自动初始化
+        window.onload = function() {
+            log('页面加载完成');
+            setTimeout(function() {
+                initLive2D();
+                setTimeout(checkElements, 1000);
+            }, 500);
+        };
+    </script>
+</body>
+</html> 

@@ -301,7 +301,7 @@ function initLive2D() {
             // 使用本地图片代替Live2D模型
             const canvas = document.getElementById('live2d');
             if (canvas) {
-                canvas.style.background = "url('img/waifu.png') no-repeat center/contain";
+                canvas.style.background = "url('https://cdn.jsdelivr.net/gh/你的GitHub用户名/你的仓库名/img/waifu.png') no-repeat center/contain";
             }
         }
         
