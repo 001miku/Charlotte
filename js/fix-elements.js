@@ -22,21 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(xuna);
     }
     
-    if (!document.getElementById('etext')) {
-        const etext = document.createElement('div');
-        etext.id = 'etext';
-        etext.innerHTML = '友利奈绪爱小陈';
-        document.body.appendChild(etext);
-        
-        // 入场动画
-        setTimeout(() => {
-            etext.style.opacity = '0';
-            setTimeout(() => {
-                etext.style.display = 'none';
-            }, 1000);
-        }, 2000);
-    }
-    
     // 确保背景图片正确加载
     const ebg = document.getElementById('ebg');
     if (ebg) {
