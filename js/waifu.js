@@ -2,8 +2,8 @@
 window.live2d_path = "https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/";
 
 // 全局变量
-let messageTimer;
-let waifuTips;
+let messageTimer = null;
+let waifuTips = null;
 
 // 对话内容配置
 const messages = {
@@ -59,14 +59,10 @@ const motions = {
     normal: ['normal', 'normal2']
 };
 
+// Waifu类
 class WaifuTips {
     constructor() {
-        this.dragging = false;
-        this.dragOffset = { x: 0, y: 0 };
         this.init();
-        
-        // 确保看板娘不会消失
-        this.checkVisibility();
     }
 
     init() {
@@ -98,14 +94,14 @@ class WaifuTips {
             // 如果没有找到waifu，创建一个
             this.waifu = document.createElement('div');
             this.waifu.className = 'waifu';
-            this.waifu.style.cssText = 'position:fixed;right:0;bottom:0;width:300px;height:300px;cursor:pointer;user-select:none;z-index:10001;transition:opacity 0.5s;opacity:1;display:block;background:none;';
+            this.waifu.style.cssText = 'position:fixed;right:0;bottom:0;width:300px;height:300px;cursor:pointer;user-select:none;z-index:10001;opacity:1;display:block;background:none;';
             container.appendChild(this.waifu);
             
             // 如果没有找到tips，创建一个
             if (!this.tips) {
                 this.tips = document.createElement('div');
                 this.tips.className = 'waifu-tips';
-                this.tips.style.cssText = 'position:absolute;top:-40px;left:20px;padding:5px 10px;width:260px;height:auto;min-height:30px;line-height:20px;text-align:center;font-size:12px;color:#333;background-color:rgba(236,217,188,0.9);border:1px solid rgba(224,186,140,0.62);border-radius:12px;opacity:0;transition:opacity 0.3s;z-index:10002;display:block;visibility:visible;';
+                this.tips.style.cssText = 'position:absolute;top:-70px;left:10px;padding:5px 10px;width:260px;text-align:center;opacity:0;z-index:10002;';
                 this.waifu.appendChild(this.tips);
             }
             
@@ -115,58 +111,34 @@ class WaifuTips {
                 this.live2d.id = 'live2d';
                 this.live2d.width = 300;
                 this.live2d.height = 300;
-                this.live2d.style.cssText = 'position:relative;width:300px;height:300px;cursor:pointer;z-index:10001;background:none;';
+                this.live2d.style.cssText = 'position:relative;width:300px;height:300px;';
                 this.waifu.appendChild(this.live2d);
             }
         }
-        
-        // 设置固定定位在右下角
-        this.waifu.style.position = 'fixed';
-        this.waifu.style.right = '0px';
-        this.waifu.style.bottom = '0px';
-        this.waifu.style.left = 'auto';
-        this.waifu.style.top = 'auto';
-        this.waifu.style.zIndex = '10001';
-        
-        // 添加过渡效果
-        this.waifu.style.transition = 'all 0.3s ease-in-out';
     }
 
     initTips() {
-        // 移除鼠标跟随旋转功能
-    }
-
-    initDrag() {
-        // 移除拖动功能
+        if (!this.tips) return;
+        this.tips.innerHTML = '';
     }
 
     initInteraction() {
-        // 鼠标进入事件
-        this.waifu.addEventListener('mouseenter', () => {
-            this.showRandomMessage('touch');
-        });
-
-        // 鼠标离开事件
-        this.waifu.addEventListener('mouseleave', () => {
-            this.showRandomMessage('default');
-        });
-
-        // 点击事件
+        // 确保元素存在
+        if (!this.waifu) return;
+        
         this.waifu.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             
-            const rect = this.live2d.getBoundingClientRect();
-            const y = e.clientY - rect.top;
-            
-            if (y < rect.height * 0.3) {
-                this.showMessage('哎呀！头部不要乱摸啦！', 3000);
-            } else if (y < rect.height * 0.6) {
-                this.showMessage('那里不可以碰！', 3000);
-            } else {
-                this.showMessage('呀！好痒呀！', 3000);
-            }
-            
+            // 随机消息
+            const messages = [
+                '是…是想要摸摸吗？',
+                '别戳我，好痒！',
+                '喜欢我吗？',
+                '你在干什么呀？',
+                '再摸我就报警了！'
+            ];
+            this.showMessage(messages[Math.floor(Math.random() * messages.length)], 4000);
             return false;
         });
     }
@@ -182,13 +154,8 @@ class WaifuTips {
         this.tips.innerHTML = text;
         this.tips.style.opacity = '1';
         this.tips.classList.add('waifu-tips-active');
-        
-        // 确保气泡显示在正确位置
         this.tips.style.display = 'block';
         this.tips.style.visibility = 'visible';
-        this.tips.style.top = '-70px'; // 调整气泡位置
-        this.tips.style.left = '10px';
-        this.tips.style.zIndex = '10002';
         
         messageTimer = setTimeout(() => {
             this.tips.style.opacity = '0';
@@ -196,72 +163,50 @@ class WaifuTips {
         }, timeout);
     }
 
-    showRandomMessage(type) {
-        const messageList = messages[type] || messages.default;
-        const message = messageList[Math.floor(Math.random() * messageList.length)];
-        this.showMessage(message, 6000);
-    }
-
-    // 检查看板娘是否可见
     checkVisibility() {
-        setInterval(() => {
-            if (this.waifu) {
-                if (this.waifu.style.display === 'none') {
-                    this.waifu.style.display = 'block';
-                }
-                if (this.waifu.style.opacity !== '1') {
-                    this.waifu.style.opacity = '1';
-                }
-                if (this.tips && this.tips.classList.contains('waifu-tips-active') && this.tips.style.opacity !== '1') {
-                    this.tips.style.opacity = '1';
-                }
-            }
-        }, 500);  // 更频繁地检查
+        if (this.waifu && this.waifu.style.display === 'none') {
+            this.waifu.style.display = 'block';
+        }
     }
 }
 
-// 欢迎消息
-function welcomeMessage() {
-    if (!waifuTips) return;  // 如果waifuTips实例还没创建，直接返回
+// 创建DOM结构
+function createWaifuDom() {
+    if (document.getElementById('live2d-widget')) return;
     
-    let text;
-    if (location.pathname === "/") { // 如果是主页
-        const now = new Date().getHours();
-        if (now > 5 && now <= 7) text = "早上好！一日之计在于晨，美好的一天就要开始了。";
-        else if (now > 7 && now <= 11) text = "上午好！工作顺利嘛，不要久坐，多起来走动走动哦！";
-        else if (now > 11 && now <= 13) text = "中午了，工作了一个上午，现在是午餐时间！";
-        else if (now > 13 && now <= 17) text = "午后很容易犯困呢，今天的运动目标完成了吗？";
-        else if (now > 17 && now <= 19) text = "傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红～";
-        else if (now > 19 && now <= 21) text = "晚上好，今天过得怎么样？";
-        else if (now > 21 && now <= 23) text = ["已经这么晚了呀，早点休息吧，晚安～", "深夜时要爱护眼睛呀！"];
-        else text = "你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？";
-    } else if (document.referrer !== "") {
-        const referrer = new URL(document.referrer),
-            domain = referrer.hostname.split(".")[1];
-        if (location.hostname === referrer.hostname) text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
-        else if (domain === "baidu") text = `Hello！来自 百度搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&wd=")[1].split("&")[0]}</span> 找到的我吗？`;
-        else if (domain === "so") text = `Hello！来自 360搜索 的朋友<br>你是搜索 <span>${referrer.search.split("&q=")[1].split("&")[0]}</span> 找到的我吗？`;
-        else if (domain === "google") text = `Hello！来自 谷歌搜索 的朋友<br>欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
-        else text = `Hello！来自 <span>${referrer.hostname}</span> 的朋友`;
-    } else {
-        text = `欢迎阅读<span>「${document.title.split(" - ")[0]}」</span>`;
-    }
-    
-    // 使用waifuTips实例的showMessage方法
-    waifuTips.showMessage(text, 7000);
+    const waifuContainer = document.createElement('div');
+    waifuContainer.id = 'live2d-widget';
+    waifuContainer.style.cssText = 'position:fixed;right:0;bottom:0;width:300px;height:300px;z-index:10000;';
+    document.body.appendChild(waifuContainer);
+
+    const waifu = document.createElement('div');
+    waifu.className = 'waifu';
+    waifu.style.cssText = 'position:fixed;right:0;bottom:0;width:300px;height:300px;cursor:pointer;z-index:10001;';
+    waifuContainer.appendChild(waifu);
+
+    const waifuTipsElement = document.createElement('div');
+    waifuTipsElement.className = 'waifu-tips';
+    waifuTipsElement.style.cssText = 'position:absolute;top:-70px;left:10px;padding:5px 10px;width:260px;text-align:center;opacity:0;z-index:10002;';
+    waifu.appendChild(waifuTipsElement);
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'live2d';
+    canvas.width = 300;
+    canvas.height = 300;
+    canvas.style.cssText = 'position:relative;width:300px;height:300px;';
+    waifu.appendChild(canvas);
 }
 
 // 初始化Live2D
 function initLive2D() {
     try {
-        // 先创建DOM结构
         createWaifuDom();
         
         // 如果L2Dwidget存在，则初始化
         if (typeof L2Dwidget !== 'undefined') {
             L2Dwidget.init({
                 model: {
-                    jsonPath: 'https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
+                    jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
                     scale: 0.8
                 },
                 display: {
@@ -293,7 +238,7 @@ function initLive2D() {
                 },
                 tool: {
                     enable: true,
-                    hide: true  // 默认隐藏菜单栏
+                    hide: true
                 }
             });
         } else {
@@ -309,49 +254,24 @@ function initLive2D() {
         setTimeout(() => {
             if (!waifuTips) {
                 waifuTips = new WaifuTips();
-                setTimeout(welcomeMessage, 1000);
             }
         }, 1000);
         
     } catch (error) {
         console.error('初始化Live2D失败:', error);
-        // 出错时也要创建交互实例
-        setTimeout(() => {
-            waifuTips = new WaifuTips();
-        }, 1000);
     }
 }
 
-// 创建看板娘DOM结构
-function createWaifuDom() {
-    // 检查是否已存在
-    if (document.getElementById('live2d-widget')) return;
-    
-    const waifuContainer = document.createElement('div');
-    waifuContainer.id = 'live2d-widget';
-    waifuContainer.style.cssText = 'position:fixed;right:0;bottom:0;width:300px;height:300px;z-index:10000;pointer-events:auto;';
-    document.body.appendChild(waifuContainer);
-
-    const waifu = document.createElement('div');
-    waifu.className = 'waifu';
-    waifu.style.cssText = 'position:fixed;right:0;bottom:0;width:300px;height:300px;cursor:pointer;user-select:none;z-index:10001;transition:opacity 0.5s;opacity:1;display:block;background:none;';
-    waifuContainer.appendChild(waifu);
-
-    const waifuTipsElement = document.createElement('div');
-    waifuTipsElement.className = 'waifu-tips';
-    waifuTipsElement.style.cssText = 'position:absolute;top:-70px;left:10px;padding:5px 10px;width:260px;height:auto;min-height:30px;line-height:20px;text-align:center;font-size:12px;color:#333;background-color:rgba(236,217,188,0.9);border:1px solid rgba(224,186,140,0.62);border-radius:12px;opacity:0;transition:opacity 0.3s;z-index:10002;display:block;visibility:visible;';
-    waifu.appendChild(waifuTipsElement);
-
-    const canvas = document.createElement('canvas');
-    canvas.id = 'live2d';
-    canvas.width = 300;
-    canvas.height = 300;
-    canvas.style.cssText = 'position:relative;width:300px;height:300px;cursor:pointer;z-index:10001;background:none;';
-    waifu.appendChild(canvas);
+// 欢迎消息
+function welcomeMessage() {
+    if (waifuTips) {
+        waifuTips.showMessage('欢迎来到我的博客~', 6000);
+    }
 }
 
-// 等待页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
-    // 初始化Live2D
+// 当页面加载完成时初始化
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLive2D);
+} else {
     initLive2D();
-}); 
+} 

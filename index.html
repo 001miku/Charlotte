@@ -3,177 +3,20 @@
 
 <head>
 	<meta charset="utf-8">
-	<!--网站收录数据抓取-->
-	<meta charset="UTF-8">
-	<meta name="language" content="zh-CN">
-	<meta name="title" content="友利奈绪爱小陈">
-	<meta name="author" content="友利奈绪爱小陈-免费发布">
-	<meta name="description" content="友利奈绪爱小陈，免费资源分享！">
-	<meta name="keywords" content="友利奈绪爱小陈,资源下载">
-	<meta name="robots" content="All">
-	<!--数据抓取完成-->
-	<title>友利奈绪爱小陈 - 33210.jm.cn</title>
-	<!-- 调用ICON地址 -->
-	<link rel="icon" href="img/cnm.sb.ico">
-	<!-- 自适应 -->
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
-	<!-- Css样式调用 -->
-	<link rel="stylesheet" type="text/css" href="css/cnm.sb_load.css" />
-	<link rel="stylesheet" type="text/css" href="css/cnm.sb_bg.css" />
-	<link rel="stylesheet" type="text/css" href="css/cnm.sb_pc.css" />
-	<link rel="stylesheet" type="text/css" href="css/cnm.sb_mp.css" />
-	<link rel="stylesheet" type="text/css" href="css/waifu.css" />
-	<!-- Javascript样式调用 -->
-	<script src="js/jquery-3.2.1.min.js"></script>
-	<script src="js/cnm.sb_judge.js"></script>
-	<script src="js/cnm.sb_pc.js"></script>
-	<script src="js/cnm.sb_mp.js"></script>
-	<script src="js/cnm.sb_copy.js"></script>
-	<!-- Live2D -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>个人博客</title>
+	<!-- DNS预加载 -->
+	<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+	<link rel="dns-prefetch" href="//unpkg.com">
+	<!-- 预加载关键资源 -->
+	<link rel="preload" href="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js" as="script">
+	<link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js" as="script">
+	<!-- 压缩版CSS -->
+	<link rel="stylesheet" href="css/style.min.css">
+	<!-- Live2D 依赖 -->
+	<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.0.min.js"></script>
-	<!-- live2d -->
-	<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>
-	<!-- 添加内联初始化脚本 -->
-	<script>
-	// 如果waifu.js加载失败，这段脚本能确保看板娘显示
-	document.addEventListener('DOMContentLoaded', () => {
-		// 隐藏后台的随机图片，防止与Live2D重叠
-		setTimeout(() => {
-			const randomImage = document.querySelector('img[src^="https://api."]');
-			if (randomImage) {
-				randomImage.style.display = 'none';
-			}
-		}, 1000);
-		
-		// 5秒后检查看板娘是否存在，如果不存在则手动创建
-		setTimeout(() => {
-			if (!document.querySelector('.waifu')) {
-				console.log('看板娘未显示，尝试手动创建');
-				// 创建基本DOM结构
-				const waifuContainer = document.createElement('div');
-				waifuContainer.style.cssText = 'position:fixed;right:0;bottom:0;width:200px;height:200px;z-index:1000;pointer-events:auto;';
-				
-				const waifu = document.createElement('div');
-				waifu.className = 'waifu';
-				waifu.style.cssText = 'position:absolute;bottom:0;left:0;width:200px;height:200px;cursor:move;user-select:none;z-index:1001;transition:opacity 0.5s;opacity:1;display:block;';
-				
-				const waifuTipsElement = document.createElement('div');
-				waifuTipsElement.className = 'waifu-tips';
-				waifuTipsElement.style.cssText = 'position:absolute;top:-40px;left:20px;padding:5px 10px;width:180px;height:auto;min-height:30px;line-height:20px;text-align:center;font-size:12px;color:#333;background-color:rgba(236,217,188,0.9);border:1px solid rgba(224,186,140,0.62);border-radius:12px;opacity:0;transition:opacity 0.3s;z-index:1002;';
-				
-				// 使用一个静态图片代替Live2D模型
-				const img = document.createElement('img');
-				img.src = 'https://i.loli.net/2020/05/14/5VyHPQF1wDgRBSW.png';
-				img.style.cssText = 'width:100%;height:100%;object-fit:contain;';
-				
-				// 添加拖动功能
-				let dragging = false;
-				let offsetX, offsetY;
-				
-				waifu.addEventListener('mousedown', (e) => {
-					dragging = true;
-					const rect = waifu.getBoundingClientRect();
-					offsetX = e.clientX - rect.left;
-					offsetY = e.clientY - rect.top;
-					waifu.style.opacity = '0.8';
-				});
-				
-				document.addEventListener('mousemove', (e) => {
-					if (!dragging) return;
-					const x = e.clientX - offsetX;
-					const y = e.clientY - offsetY;
-					waifu.style.left = x + 'px';
-					waifu.style.top = y + 'px';
-				});
-				
-				document.addEventListener('mouseup', () => {
-					dragging = false;
-					waifu.style.opacity = '1';
-				});
-				
-				// 显示消息
-				const showMessage = (text) => {
-					waifuTipsElement.innerHTML = text;
-					waifuTipsElement.style.opacity = '1';
-					setTimeout(() => {
-						waifuTipsElement.style.opacity = '0';
-					}, 3000);
-				};
-				
-				// 初始消息
-				setTimeout(() => {
-					showMessage('你好呀！我是你的看板娘~');
-				}, 1000);
-				
-				waifu.appendChild(waifuTipsElement);
-				waifu.appendChild(img);
-				waifuContainer.appendChild(waifu);
-				document.body.appendChild(waifuContainer);
-				
-				// 点击交互
-				waifu.addEventListener('click', () => {
-					const messages = [
-						'你好呀！',
-						'点我干嘛呀！',
-						'喜欢我吗？',
-						'别戳啦，好痒！'
-					];
-					showMessage(messages[Math.floor(Math.random() * messages.length)]);
-				});
-			}
-		}, 5000);
-	});
-	</script>
-	<script src="js/waifu.js"></script>
-
-	<script>
-		// 使用HTTPS资源
-		L2Dwidget.init({
-			model: {
-				jsonPath: 'https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
-					scale: 0.8
-			},
-			display: {
-				position: 'right',
-				width: 300,
-				height: 300,
-				hOffset: 0,
-				vOffset: 0
-			},
-			mobile: {
-				show: true,
-				scale: 0.6
-			},
-			react: {
-				opacityDefault: 1,
-				opacityOnHover: 1
-			},
-			name: {
-				canvas: 'live2d',
-				div: 'live2d-widget'
-			},
-			dialog: {
-				enable: true,
-				script: {
-					'tap body': '哎呀！别碰我！',
-					'tap face': '人家在认真工作啦！',
-					'tap clothes': '要好好学习哦！'
-				}
-			},
-			tool: {
-				enable: true,
-				hide: true
-			},
-			debug: {
-				enable: true
-			}
-		});
-	</script>
-
 </head>
 
 <body>
@@ -1212,7 +1055,69 @@
 	}
 	</script>
 
-	<script src="js/waifu.js"></script>
+	<script async src="js/waifu.js"></script>
+
+	<!-- 使用webp格式图片，加载更快 -->
+	<script>
+	// 检查图片加载情况
+	document.addEventListener('DOMContentLoaded', () => {
+		// 使用IntersectionObserver延迟加载非关键资源
+		const lazyImages = document.querySelectorAll('img[data-src]');
+		if ('IntersectionObserver' in window) {
+			const imageObserver = new IntersectionObserver((entries, observer) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const image = entry.target;
+						image.src = image.dataset.src;
+						imageObserver.unobserve(image);
+					}
+				});
+			});
+			lazyImages.forEach(img => imageObserver.observe(img));
+		}
+		
+		// 初始化Live2D (使用更快的CDN)
+		if (typeof L2Dwidget !== 'undefined') {
+			L2Dwidget.init({
+				model: {
+					jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
+					scale: 0.8
+				},
+				display: {
+					position: 'right',
+					width: 300,
+					height: 300,
+					hOffset: 0,
+					vOffset: 0
+				},
+				mobile: {
+					show: true,
+					scale: 0.6
+				},
+				react: {
+					opacityDefault: 1,
+					opacityOnHover: 1
+				},
+				name: {
+					canvas: 'live2d',
+					div: 'live2d-widget'
+				},
+				dialog: {
+					enable: true,
+					script: {
+						'tap body': '哎呀！别碰我！',
+						'tap face': '人家在认真工作啦！',
+						'tap clothes': '要好好学习哦！'
+					}
+				},
+				tool: {
+					enable: true,
+					hide: true
+				}
+			});
+		}
+	});
+	</script>
 </body>
 
 </html>
