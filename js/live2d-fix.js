@@ -196,7 +196,7 @@ function initLive2DManually() {
             if (waifu) {
                 waifu.style.display = 'block';
                 waifu.style.right = '0'; // 确保显示在右侧
-                waifu.style.bottom = '80px'; // 向上移动80px
+                waifu.style.bottom = '90px'; // 向上移动90px
             }
         } catch (error) {
             console.error('Live2D初始化失败:', error);
@@ -259,7 +259,7 @@ setInterval(() => {
         console.log('检测到waifu元素被隐藏，尝试显示');
         waifu.style.display = 'block';
         waifu.style.right = '0'; // 确保显示在右侧
-        waifu.style.bottom = '80px'; // 向上移动80px
+        waifu.style.bottom = '90px'; // 向上移动90px
     }
     
     // 检查并隐藏工具栏

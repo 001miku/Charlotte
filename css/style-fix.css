@@ -76,7 +76,7 @@ img {
 #live2d-widget {
     position: fixed;
     right: 0;
-    bottom: 80px;
+    bottom: 90px;
     z-index: 999;
 }
 
@@ -89,7 +89,7 @@ img {
 .waifu {
     position: fixed;
     right: 0;
-    bottom: 80px;
+    bottom: 90px;
     z-index: 999;
     transition: all .3s ease-in-out;
     transform-origin: right bottom;
