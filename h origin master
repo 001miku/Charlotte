@@ -1,0 +1,5 @@
+[33mcommit 3cc58b3b5389e306972826f6bd3664e01f9dcaab[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Miku <13067665+chen-lingyun1@user.noreply.gitee.com>
+Date:   Wed Mar 26 19:37:54 2025 +0800
+
+    修复Live2D看板娘消失和黑色遮罩问题
