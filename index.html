@@ -20,6 +20,12 @@
 	<!-- DNS预加载 -->
 	<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
 	<link rel="dns-prefetch" href="//unpkg.com">
+	<link rel="dns-prefetch" href="//fastly.jsdelivr.net">
+	<!-- 预加载关键资源 -->
+	<link rel="preload" href="img/bgs.png" as="image">
+	<link rel="preload" href="css/cnm.sb_load.css" as="style">
+	<link rel="preload" href="css/cnm.sb_bg.css" as="style">
+	<link rel="stylesheet" href="css/style-fix.css">
 	<!-- Css样式调用 -->
 	<link rel="stylesheet" type="text/css" href="css/cnm.sb_load.css" />
 	<link rel="stylesheet" type="text/css" href="css/cnm.sb_bg.css" />
@@ -1083,6 +1089,7 @@
 	<script async src="js/waifu.js"></script>
 	<!-- 添加修复脚本 -->
 	<script src="js/fix-elements.js"></script>
+	<script src="js/image-loader.js"></script>
 </body>
 
 </html>
