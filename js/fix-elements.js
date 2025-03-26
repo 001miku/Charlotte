@@ -200,7 +200,7 @@ function initializeLive2D() {
         const waifu = document.querySelector('.waifu');
         if (waifu) {
             waifu.style.right = '0';
-            waifu.style.bottom = '90px';
+            waifu.style.bottom = '100px';
         }
     } else {
         console.warn('L2Dwidget未加载，5秒后重试');
